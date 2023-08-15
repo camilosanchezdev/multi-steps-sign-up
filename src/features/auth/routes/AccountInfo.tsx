@@ -6,6 +6,8 @@ import { styled } from "styled-components";
 import { AccountPlanOption } from "../components/AccountPlanOption";
 import { useState } from "react";
 import { InputText } from "@/components/Form/InputText";
+import { useNavigate } from "react-router-dom";
+import { AUTH_ROUTES } from "./routes.enum";
 
 const Content = styled.div`
   margin: 40px 0;
@@ -52,8 +54,25 @@ const sizes = [
   { id: 3, value: "10-50" },
   { id: 4, value: "50+" },
 ];
+enum AccountPlanEnum {
+  COMPANY_ACCOUNT = 1,
+  DEVELOPER_ACCOUNT,
+  TESTING_ACCOUNT,
+}
 export const AccountInfo = () => {
+  const navigate = useNavigate();
+  const [accountName, setAccountName] = useState("");
+  const [formSubmitted, setFormSubmitted] = useState(false);
   const [sizeSelected, setSizeSelected] = useState(1);
+  const [planSelected, setPlanSelected] = useState(
+    AccountPlanEnum.COMPANY_ACCOUNT
+  );
+  const handleOnPressContinue = () => {
+    setFormSubmitted(true);
+    if (accountName) {
+      navigate(AUTH_ROUTES.BUSINESS_DETAILS);
+    }
+  };
   return (
     <AuthLayout>
       <Title>Account Info</Title>
@@ -63,6 +82,8 @@ export const AccountInfo = () => {
         <Cards>
           {sizes.map((item) => (
             <Card
+              key={item.id}
+              data-testid={item.value}
               className={item.id === sizeSelected ? "active" : ""}
               onClick={() => setSizeSelected(item.id)}
             >
@@ -74,32 +95,43 @@ export const AccountInfo = () => {
           Customers will see this shortened version of your statement descriptor
         </Detail>
 
-        {/* <Headline>Team Account Name</Headline>
-        <Input type="text" /> */}
-        <InputText label="Team Account Name" />
+        <InputText
+          label="Team Account Name"
+          required
+          errorMessage="Account name is required"
+          onError={formSubmitted && !accountName}
+          defaultValue={accountName}
+          onChange={(e) => setAccountName(e.target.value)}
+        />
         <Headline>Select Account Plan</Headline>
         <Selection>
           <AccountPlanOption
+            checked={planSelected === AccountPlanEnum.COMPANY_ACCOUNT}
             title="Company Account"
             description="Use images to enhance your post flow"
             value="1"
             icon="fa-solid fa-building-columns"
+            onChange={() => setPlanSelected(AccountPlanEnum.COMPANY_ACCOUNT)}
           />
           <AccountPlanOption
+            checked={planSelected === AccountPlanEnum.DEVELOPER_ACCOUNT}
             title="Developer Account"
             description="Use images to your post time"
             value="2"
             icon="fa-solid fa-chart-pie"
+            onChange={() => setPlanSelected(AccountPlanEnum.DEVELOPER_ACCOUNT)}
           />
           <AccountPlanOption
+            checked={planSelected === AccountPlanEnum.TESTING_ACCOUNT}
             title="Testing Account"
             description="Use images to enhance time travel rivers"
             value="3"
             icon="fa-solid fa-chart-column"
+            onChange={() => setPlanSelected(AccountPlanEnum.TESTING_ACCOUNT)}
           />
         </Selection>
       </Content>
-      <Actions prev next to="/auth/business-details" />
+      <Actions prev next onPressNext={handleOnPressContinue} />
     </AuthLayout>
   );
 };

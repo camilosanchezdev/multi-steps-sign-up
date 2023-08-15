@@ -44,6 +44,7 @@ const Wrapper = styled.div`
 `;
 
 type CardProps = {
+  id: string;
   title: string;
   subtitle: string;
   className: string;
@@ -51,13 +52,14 @@ type CardProps = {
   icon: string;
 };
 export const Card = ({
+  id,
   title,
   subtitle,
   className,
   icon,
   onClick,
 }: CardProps) => (
-  <Wrapper className={className} onClick={onClick}>
+  <Wrapper className={className} onClick={onClick} data-testid={id}>
     <div className="icon">
       <i className={icon}></i>
     </div>

@@ -42,15 +42,26 @@ const Icons = styled.div`
     width: 100%;
   }
 `;
+const Alert = styled.small`
+  color: red;
+`;
 type InputTextCreditCardProps = {
+  id?: string;
   label: string;
   required?: boolean;
   defaultValue?: string;
+  errorMessage?: string;
+  onError?: boolean;
+  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
 };
 export const InputTextCreditCard = ({
+  id,
   label,
   defaultValue,
   required = false,
+  errorMessage,
+  onError,
+  onChange,
 }: InputTextCreditCardProps) => (
   <Wrapper>
     <Headline>
@@ -58,12 +69,18 @@ export const InputTextCreditCard = ({
       {required ? <span> *</span> : null}
     </Headline>
     <InputContainer>
-      <Input type="text" value={defaultValue} />
+      <Input
+        data-testid={id}
+        type="text"
+        value={defaultValue}
+        onChange={onChange}
+      />
       <Icons>
         <VisaIcon />
         <MasterCardIcon />
         <AmericanExpressIcon />
       </Icons>
     </InputContainer>
+    {onError ? <Alert role="alert">{errorMessage}</Alert> : null}
   </Wrapper>
 );

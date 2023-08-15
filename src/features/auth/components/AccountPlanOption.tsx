@@ -33,12 +33,16 @@ type AccountPlanOptionProps = {
   description: string;
   value: string;
   icon: string;
+  checked: boolean;
+  onChange: () => void;
 };
 export const AccountPlanOption = ({
   title,
   description,
   value,
   icon,
+  checked,
+  onChange,
 }: AccountPlanOptionProps) => (
   <Wrapper>
     <Item>
@@ -50,6 +54,13 @@ export const AccountPlanOption = ({
         <small>{description}</small>
       </Text>
     </Item>
-    <input type="radio" name="accountPlan" value={value} />
+    <input
+      type="radio"
+      name="accountPlan"
+      value={value}
+      data-testid={title}
+      checked={checked}
+      onChange={onChange}
+    />
   </Wrapper>
 );

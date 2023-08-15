@@ -11,6 +11,9 @@ import {
   getExpirationDateYears,
 } from "@/utils/getExpirationDate.util";
 import { Toggle } from "@/components/Form/Toggle";
+import { useNavigate } from "react-router-dom";
+import { useState } from "react";
+import { AUTH_ROUTES } from "./routes.enum";
 
 const Content = styled.div`
   margin: 20px 0;
@@ -19,6 +22,7 @@ const ExpirationDate = styled.div`
   display: flex;
   gap: 20px;
   width: 100%;
+  margin: 20px 0;
 `;
 const SaveCard = styled.div`
   margin: 20px 0;
@@ -38,31 +42,69 @@ const months: InputSelectOption[] = getExpirationDateMonths();
 
 const years: InputSelectOption[] = getExpirationDateYears();
 
-export const BillingDetails = () => (
-  <AuthLayout>
-    <Title>Billing Details</Title>
-    <Subtitle />
-    <Content>
-      <InputText label="Name On Card" required defaultValue="John Doe" />
-      <InputTextCreditCard
-        label="Card Number"
-        required
-        defaultValue="4111 1111 1111 1111"
-      />
-      <ExpirationDate>
-        <InputSelect label="Expiration Date" required options={months} />
-        <InputSelect options={years} />
-        <InputText label="CVV" required defaultValue="123" />
-      </ExpirationDate>
-      <SaveCard>
-        <Headline>
-          <span> Save Card for further billing?</span>
-          <small>If you need more info, please check budget planning</small>
-        </Headline>
-        <Toggle />
-      </SaveCard>
-    </Content>
+export const BillingDetails = () => {
+  const navigate = useNavigate();
+  const [cardName, setCardName] = useState("John Doe");
+  const [cardNumber, setCardNumber] = useState("4111 1111 1111 1111");
+  const [cardCVV, setCardCVV] = useState("");
+  const [formSubmitted, setFormSubmitted] = useState(false);
+  const handleOnPressContinue = () => {
+    setFormSubmitted(true);
+    if (cardName && cardNumber && cardCVV) {
+      navigate(AUTH_ROUTES.COMPLETED);
+    }
+  };
+  return (
+    <AuthLayout>
+      <Title>Billing Details</Title>
+      <Subtitle />
+      <Content>
+        <InputText
+          id="name-on-card"
+          label="Name On Card"
+          required
+          errorMessage="Name on card is required"
+          onError={formSubmitted && !cardName}
+          defaultValue={cardName}
+          onChange={(e) => setCardName(e.target.value)}
+        />
+        <InputTextCreditCard
+          id="card-number"
+          label="Card Number"
+          required
+          errorMessage="Card number is required"
+          onError={formSubmitted && !cardNumber}
+          defaultValue={cardNumber}
+          onChange={(e) => setCardNumber(e.target.value)}
+        />
+        <ExpirationDate className={formSubmitted && !cardCVV ? "error" : ""}>
+          <InputSelect
+            label="Expiration Date"
+            required
+            options={months}
+            onError={formSubmitted && !cardCVV}
+          />
+          <InputSelect options={years} onError={formSubmitted && !cardCVV} />
+          <InputText
+            id="cvv"
+            label="CVV"
+            required
+            errorMessage="CVV is required"
+            onError={formSubmitted && !cardCVV}
+            defaultValue={cardCVV}
+            onChange={(e) => setCardCVV(e.target.value)}
+          />
+        </ExpirationDate>
+        <SaveCard>
+          <Headline>
+            <span> Save Card for further billing?</span>
+            <small>If you need more info, please check budget planning</small>
+          </Headline>
+          <Toggle />
+        </SaveCard>
+      </Content>
 
-    <Actions prev next to="/auth/completed" />
-  </AuthLayout>
-);
+      <Actions prev next onPressNext={handleOnPressContinue} />
+    </AuthLayout>
+  );
+};

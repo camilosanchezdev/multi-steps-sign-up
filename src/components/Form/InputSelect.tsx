@@ -5,6 +5,9 @@ const Wrapper = styled.div`
   width: 100%;
   flex-direction: column;
   justify-content: flex-end;
+  &.error {
+    margin: 0 0 36px 0;
+  }
 `;
 const Headline = styled.div`
   font-size: 1rem;
@@ -31,13 +34,15 @@ type InputSelectProps = {
   label?: string;
   required?: boolean;
   options: InputSelectOption[];
+  onError?: boolean;
 };
 export const InputSelect = ({
   label,
   required = false,
   options,
+  onError,
 }: InputSelectProps) => (
-  <Wrapper>
+  <Wrapper className={onError ? "error" : ""}>
     <Headline>
       {label}
       {required ? <span> *</span> : null}

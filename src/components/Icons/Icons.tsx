@@ -27,7 +27,7 @@ export const MasterCardIcon = () => (
     xmlns="http://www.w3.org/2000/svg"
   >
     <rect width="80" height="48" rx="6" fill="#F6F8FA" />
-    <g clip-path="url(#clip0)">
+    <g clipPath="url(#clip0)">
       <path
         d="M47.129 35.9651H33.8779V12.2273H47.1292L47.129 35.9651Z"
         fill="#FF5F00"
@@ -61,7 +61,7 @@ export const AmericanExpressIcon = () => (
       d="M74 0H6C2.68629 0 0 2.68629 0 6V42C0 45.3137 2.68629 48 6 48H74C77.3137 48 80 45.3137 80 42V6C80 2.68629 77.3137 0 74 0Z"
       fill="#F6F8FA"
     />
-    <g clip-path="url(#clip0)">
+    <g clipPath="url(#clip0)">
       <path
         d="M11 18.0556H13.4444L12.2222 14.9444L11 18.0556Z"
         fill="#2FABF7"

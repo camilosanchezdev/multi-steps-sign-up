@@ -35,20 +35,28 @@ const Button = styled.button`
 type ActionsProps = {
   prev?: boolean;
   next?: boolean;
-  to?: string;
+  onPressNext: () => void;
 };
-export const Actions = ({ prev, next, to }: ActionsProps) => {
+export const Actions = ({ prev, next, onPressNext }: ActionsProps) => {
   const navigate = useNavigate();
   return (
     <Wrapper className={!prev && next ? "right" : ""}>
       {prev ? (
-        <Button className="secondary" onClick={() => navigate(-1)}>
+        <Button
+          data-testid="actions-prev-button"
+          className="secondary"
+          onClick={() => navigate(-1)}
+        >
           <i className="fa-solid fa-arrow-left"></i>
           <span>Previous</span>
         </Button>
       ) : null}
       {next ? (
-        <Button className="primary" onClick={() => navigate(String(to))}>
+        <Button
+          data-testid="actions-next-button"
+          className="primary"
+          onClick={() => onPressNext()}
+        >
           <span>Continue</span>
           <i className="fa-solid fa-arrow-right"></i>
         </Button>

@@ -65,6 +65,6 @@ export const Completed = () => (
         <p>To start using great tools, please, Create Team Platform</p>
       </div>
     </Card>
-    <Actions prev />
+    <Actions prev onPressNext={() => {}} />
   </AuthLayout>
 );
