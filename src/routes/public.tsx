@@ -11,7 +11,7 @@ export const publicRoutes = [
     path: "",
     element: <App />,
     children: [
-      { path: "/auth", element: <AuthRoutes /> },
+      { path: "/auth/*", element: <AuthRoutes /> },
       { path: "", element: <Navigate to="/auth" /> },
     ],
   },
