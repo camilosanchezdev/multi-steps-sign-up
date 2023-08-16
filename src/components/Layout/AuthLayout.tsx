@@ -1,6 +1,7 @@
 import { styled } from "styled-components";
 import bgAuth from "@/assets/bg-auth.png";
 import { StepperIndicator } from "@/features/auth/components/StepperIndicator";
+import logo from "@/assets/logo.png";
 
 const Wrapper = styled.main`
   height: 100vh;
@@ -32,7 +33,7 @@ const Stepper = styled.aside`
 `;
 
 const Logo = styled.img`
-  width: 150px;
+  width: 250px;
 `;
 
 const Content = styled.div`
@@ -56,10 +57,7 @@ export const AuthLayout = ({ children }: AuthLayoutProps) => {
     <Wrapper>
       <Aside>
         <Stepper>
-          <Logo
-            src="https://preview.keenthemes.com/metronic8/demo1/assets/media/logos/custom-1.png"
-            alt=""
-          />
+          <Logo src={logo} alt="Network" title="Network" />
           <StepperIndicator />
         </Stepper>
       </Aside>
